@@ -1,16 +1,40 @@
 <!DOCTYPE html>
 <html>
-  <head>
+
+<head>
     <meta charset="utf-8">
     <title>vue_mint</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, minimal-ui">
-    <meta name="screen-orientation" content="portrait"/>
+    <meta name="screen-orientation" content="portrait" />
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="format-detection" content="telephone=no">
     <meta name="full-screen" content="yes">
     <meta name="x5-fullscreen" content="true">
-  </head>
-  <body>
-    <h1>你只需要知道，我叫张强</h1>
-  </body>
+</head>
+<style>
+  body{
+    padding: 50px;
+    font-size: 16px;
+  }
+</style>
+<body>
+    <p> 最近要用到开发要用到nodejs，于是跑到开发机运行了下node，已经安装了，深感欣慰，是啥版本呢？再次运行了下node -v，原来是0.6.x的。估计是早先什么时候谁弄的。那么来升级下node吧。</p>
+    <h3> 如何升级nodejs版本？</h3>
+    <p> 这个在windows下几乎不是问题，直接重新下个最新版的exe运行安装即可，但linux下怎么升级呢？直接去下最新的源码包，make & make install 就可以了。但有木有更优雅的方式呢？这里我们来介绍下linux下nodejs版本管理的神器n n是Node的一个模块，作者是TJ Holowaychuk（鼎鼎大名的Express框架作者）</p>
+    <p>安装n:</p>
+    <p> npm install -g n</p>
+    <p>  一句话，搞定。接下来就可以根据自己需要：</p>
+    <p> 安装node最新版本：</p>
+    <p>n latest</p>
+    <p>安装稳定版</p>
+    <p> n stable</p>
+    <p>查看已安装版本</p>
+    <p> n</p>
+    <p>删除指定版本</p>
+    <p>n rm 0.10.1</p>
+    <p>指定某个版本运行脚本</p>
+    <p> n use 0.10.1</p>
+    <p> so easy，妈妈再也不用担心我的nodejs版本管理问题了。同类的东东还有个叫nvm（Node Version Manager）的，它是通过shell脚本实现的，有兴趣的同学可以去看下。</p>
+</body>
+
 </html>
