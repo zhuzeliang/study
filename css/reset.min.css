@@ -1,0 +1,17 @@
+// zero CSS Reset for PC
+@charset "UTF-8";
+body, h1, h2, h3, h4, h5, h6, hr, p, blockquote, dl, dt, dd, ul, ol, li, pre, fieldset, lengend, button, input, textarea, th, td,pre,code { margin: 0; padding: 0; }
+body, button, input, select, textarea { font: 16px/1.428 "Microsoft Yahei", Tahoma, Helvetica, Arial, "\5b8b\4f53", sans-serif; word-break: break-word;word-wrap: break-word;}
+address, cite, dfn, em, var { font-style: normal; }
+code, kbd, pre, samp, tt { font-family: "Courier New", Courier, monospace; }
+small { font-size: 12px; }
+ul, ol { list-style: none; }
+a { text-decoration: none; }
+a:hover { text-decoration: none; }
+abbr[title], acronym[title] { border-bottom: 1px dotted; cursor: help; }
+q:before, q:after { content: ''; }
+fieldset, img { border: none; }
+button, input, select, textarea { font-size: 100%; }
+table { border-collapse: collapse; border-spacing: 0; }
+hr { border: none; height: 1px; }
+html { overflow-y: scroll; }

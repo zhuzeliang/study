@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <title>javascript学习笔记</title>
+    <link rel="stylesheet" href="http://cdn.bootcss.com/font-awesome/4.5.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://files.cnblogs.com/files/zhuzeliang/tomorrow.min.css">
+    <link rel="stylesheet" href="css/index.min.css">
+    <link rel="stylesheet" href="css/reset.min.css">
+    <script src="http://cdn.bootcss.com/jquery/2.2.1/jquery.min.js"></script>
+    <script src="https://files.cnblogs.com/files/zhuzeliang/highlight.min.js"></script>
+</head>
+<style>
+</style>
+
+<body>
+    <div class="container">
+        <h1>JS中的call()和apply()方法总结</h1>
+        <div class="detail">
+            <p>在js中每个函数都包含两个非继承而来的方法：call()和apply()。</p>
+            <p class="sub">call和apply的作用都是在特定的作用域中将函数绑定到另外一个对象上去运行，即可用用来重新定义函数的执行环境，两者仅在定义参数方式上有所区别</p>
+            <p class="sub">它们接受参数方面不同：call和apply的第一个参数都是需要传递给函数的值，call与apply的不同就是call传的值可以是任意的，而apply传的参数值必须为数组。</p>
+        </div>
+        <h3>语法：</h3>
+        <pre>
+            <code class="lang-javascript hljs">
+                Function.call(obj,param1,param2...)
+                Function.apply(obj,[param1,param2...])
+            </code>
+        </pre>
+        <p>注意: 调用call的对象必须是一个函数对象,因为 call这个方法是在Function的prototype里的。</p>
+        <h3>常见用法：</h3>
+        <pre>
+            <code>
+                function add(a,b){
+                    console.log(a+b);
+                };
+                function reduce(a,b){
+                    console.log(a-b);
+                };
+                add.call(reduce,1,3)  //将add方法运用到reduce  输出4
+            </code>
+        </pre>
+        <pre>
+            <code>
+                var name = "zero";
+                var obj = {name:"zzl"};
+                function sayName(){
+                    console.log(this.name);
+                }
+                sayName(); //zero;
+                sayName.call(window);//zero;
+                sayName.call(obj);//zzl;
+            </code>
+        </pre>
+    </div>
+    <button id="btn">百度一下</button>
+</body>
+<script>
+hljs.initHighlightingOnLoad();
+
+
+var name = "window";
+var person1 = {
+    name: "person1",
+    show1: function() {
+        console.log(this.name);
+    },
+    show2: () => console.log(this.name),
+    show3: function() {
+        return function() {
+            console.log(this.name);
+        }
+    },
+    show4: function() {
+        return () => console.log(this.name);
+    }
+};
+var person2 = { name: "person2" };
+
+person1.show1(); //person1
+person1.show1.call(person2) //person2
+person1.show2(); //window
+person1.show2.call(person2); //window
+person1.show3()(); //window
+person1.show3().call(person2); //person2
+person1.show3.call(person2)(); //window
+person1.show4()(); //person1
+person1.show4().call(person2); //person1
+person1.show4.call(person2)(); //person2
+
+
+// 箭头函数this指向：
+// 1.this指向函数上一层函数this，若无上一层函数，指向全局window;
+// 2.定义函数时所在上下文中的this；
+// 3.this指向定义时所在的对象，而非使用时所在的对象。
+
+
+//原生js实现跨域访问百度搜索接口
+
+var getData = function(result) {
+    console.log(result);
+}
+
+function getAjaxData(data,cb) {
+    var url = 'https://sp0.baidu.com/5a1Fazu8AA54nxGko9WTAnF6hhy?cb=getData&wd='+data;
+    var script = document.createElement('script');
+    script.setAttribute('src', url);
+    document.getElementsByTagName('head')[0].appendChild(script);
+    var done = false;
+    script.onload = script.onreadystatechange = function() {
+        if (!done && (!script.readyState ||  script.readyState == 'loaded' || script.readyState == 'complete')) {
+            done = true;
+        }
+        script.onload = script.onreadystatechange = null;
+        cb && cb.call(script)//短路函数
+    }
+}
+// getAjaxData("王者荣耀");
+var btn = document.querySelector("#btn");
+var i = 0;
+btn.onclick = function(){
+    var jscript = document.querySelector(".jscript");
+    getAjaxData(i++,function(){
+        document.getElementsByTagName('head')[0].removeChild(this);
+    });
+}
+</script>
+
+</html>
