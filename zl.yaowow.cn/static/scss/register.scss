@@ -1,0 +1,100 @@
+@charset "UTF-8";
+@import "reset";
+@import "mixins";
+@import "variable";
+@import "common";
+@import "button";
+html,
+body {
+    background: #fff;
+}
+
+.register-form {
+    padding: 0.30rem 0.60rem;
+}
+
+.register-cell {
+    @include border-1px;
+    @include flexbox;
+    @include vertical-layout(center);
+    border-width: 1px;
+    margin-bottom: 0.25rem;
+    padding-top: 0.12rem;
+    padding-bottom: 0.12rem;
+    padding-left: 0.40rem;
+    padding-right: 0.20rem;
+    .register-cell-bd {
+        @include flex(1);
+        padding: 0.10rem 0;
+        .register-input {
+            width: 100%;
+            line-height: 1.47;
+            font-size: 0.32rem;
+        }
+    }
+    .register-cell-hd {
+        .hq {
+            color: $main-color;
+            background: #fff;
+            font-size: 0.32rem;
+        }
+        .vcode {
+            width: 1.50rem;
+            height: 0.65rem;
+            display: block;
+        }
+    }
+}
+
+.register-agree {
+    @include flexbox;
+    @include vertical-layout(center);
+    margin-top:0.30rem;
+    margin-bottom:0.50rem;
+    .agree{
+    	margin-left:0.06rem;
+    	display:inline-block;
+    	font-size:0.28rem;
+    }
+}
+
+//checkbox
+.zui-checkbox-box {
+    display: inline-block;
+    position: relative;
+    cursor: pointer;
+    .zui-checkbox {
+        position: absolute;
+        left: -99999px;
+    }
+    .zui-checkbox-tip {
+        display: inline-block;
+        width: 18px;
+        height: 18px;
+        border: 1px solid $main-font-color;
+        border-radius:50%;
+        position: relative;
+        background: #fff;
+        vertical-align: middle;
+        margin-top: -2px;
+        margin-bottom: 1px;
+        box-sizing:border-box;
+    }
+    .zui-checkbox:checked+.zui-checkbox-tip {
+        &::after {
+            position: absolute;
+            content: "\200B";
+            display: block;
+            width: 8px;
+            height: 4px;
+            background: transparent;
+            left: 50%;
+            top: 50%;
+            margin-left: -4px;
+            margin-top: -4px;
+            border-left: 1px solid #000;
+            border-bottom: 1px solid #000;
+            transform: rotateZ(-45deg);
+        }
+    }
+}

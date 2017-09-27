@@ -1,0 +1,152 @@
+@charset "UTF-8";
+@import "reset";
+@import "mixins";
+@import "variable";
+@import "common";
+html,
+body {
+    background: #f8f8f8;
+}
+
+.zui-form {
+    margin-top: 0.30rem;
+}
+.zui-cells-right .zui-input{
+	text-align:right;
+}
+.zui-cells {
+    position: relative;
+    background: #fff;
+    .zui-cell {
+        @include flexbox;
+        @include vertical-layout(center);
+        position: relative;
+        padding: 0.30rem 0.40rem;
+        font-size: 0.32rem;
+        @include border-1px;
+        border-bottom-width: 1px;
+        .zui-cell-bd {
+            @include flex(1);
+             position:relative;
+            .zui-input {
+                width: 100%;
+                height: 1.425em;
+                line-height: 1.425em;
+                font-size: inherit;
+                background:#fff;
+            }
+            .zui-select{
+            	width: 100%;
+            	height: 100%;
+                line-height: 1.425em;
+                font-size: inherit;
+                direction: rtl;
+                background:#fff;
+                padding-right: 0.30rem;
+            }
+            &.zui-cell-bd-select{
+            	position: absolute;
+                left:0;
+                top:0;
+                right:0;
+                bottom:0;
+                opacity: 0;
+            	&::after{
+            		content: "\200B";
+			        display: inline-block;
+			        height: 6px;
+			        width: 6px;
+			        border-width: 2px 2px 0 0;
+			        border-color: #C8C8CD;
+			        border-style: solid;
+			        -webkit-transform: matrix(0.71, 0.71, -0.71, 0.71, 0, 0);
+			        transform: matrix(0.71, 0.71, -0.71, 0.71, 0, 0);
+			        position: relative;
+			        top: -2px;
+			        position: absolute;
+			        top: 50%;
+			        margin-top: -4px;
+			        right: 2px;
+            	}
+            }
+        }
+        .zui-cell-hd {
+            .et-vcode {
+                width: 1.60rem;
+                height: 0.60rem;
+                display: block;
+                margin-left: 0.30rem;
+            }
+            .zui-hq {
+                background: #fff;
+                color: $main-color;
+                font-size: inherit;
+            }
+        }
+    }
+}
+
+// .zui-agree {
+//     padding: 0.30rem 0.40rem;
+//     font-size: 14px;
+//     color: $sub-font-color;
+// }
+
+// .zui-checkbox {
+//     position: relative;
+//     background: transparent;
+//     border-radius: 50%;
+//     width: 16px;
+//     height: 16px;
+//     border: 1px solid #666666;
+//     display: inline-block;
+//     vertical-align: middle;
+//     margin-top: -2px;
+//     margin-bottom: 1px;
+//     margin-right: 4px;
+//     &.checked {
+//         background: #666666;
+//     }
+//     &::after {
+//         position: absolute;
+//         content: "\200B";
+//         display: block;
+//         width: 6px;
+//         height: 4px;
+//         background: transparent;
+//         left: 50%;
+//         top: 50%;
+//         margin-left: -4px;
+//         margin-top: -3px;
+//         border-left: 1px solid #fff;
+//         border-bottom: 1px solid #fff;
+//         transform: rotateZ(-45deg);
+//     }
+//     input[type="checkbox"] {
+//         position: absolute;
+//         left: -9999px;
+//     }
+//     input[type="checkbox"]{
+//         position: absolute;
+//         left: -9999px;
+//     }
+// }
+
+.zui-checkbox-box{
+    display:block;
+    position: relative;
+    .zui-checkbox{
+        position: absolute;
+        left:-99999px;
+    }
+    .zui-checkbox-tip{
+        display:inline-block;
+        width: 0.20rem;
+        height: 0.20rem;
+        border:1px solid #000;
+        border-radius:50%;
+    }
+    .zui-checkbox::checked + .zui-checkbox-tip{
+        border:1px solid red;
+    }
+}
