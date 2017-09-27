@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <link rel="stylesheet" href="css/weui.css">
+    <script src="js/weui.min.js"></script>
+    <script src="js/jquery.min.js"></script>
+    <title>Document</title>
+</head>
+<style>
+* {
+    margin: 0;
+    padding: 0;
+}
+
+html,
+body {
+    font: 400 14px/45px verdana;
+}
+em{
+	font-style: normal;
+}
+.clearfix:after {
+    content: "\200B";
+    clear: both;
+    height: 0;
+    display: block;
+}
+
+.cal-week,
+.cal-date {
+    width: 14.28%;
+    float: left;
+    text-align: center;
+    height: 40px;
+    padding: 5px 0;
+}
+
+.cal-week-box {
+    background: #f7f7f7;
+}
+.invaild{
+	color: #cfcfcf;
+}
+</style>
+
+<body>
+    <input type="button" value="获取">
+    <div class="cal-week-box clearfix">
+        <div class="cal-week">日</div>
+        <div class="cal-week">一</div>
+        <div class="cal-week">二</div>
+        <div class="cal-week">三</div>
+        <div class="cal-week">四</div>
+        <div class="cal-week">五</div>
+        <div class="cal-week">六</div>
+    </div>
+    <div class="cal-date-box clearfix">
+       <!--  <div class="cal-date"><em>1</em></div>
+        <div class="cal-date"><em>1</em></div>
+        <div class="cal-date"><em>1</em></div>
+        <div class="cal-date">4</div>
+        <div class="cal-date">5</div>
+        <div class="cal-date">6</div>
+        <div class="cal-date">7</div>
+        <div class="cal-date">8</div>
+        <div class="cal-date">9</div>
+        <div class="cal-date">10</div>
+        <div class="cal-date">11</div>
+        <div class="cal-date">12</div>
+        <div class="cal-date">13</div>
+        <div class="cal-date">14</div>
+        <div class="cal-date">15</div>
+        <div class="cal-date">16</div>
+        <div class="cal-date">17</div>
+        <div class="cal-date">18</div>
+        <div class="cal-date">19</div>
+        <div class="cal-date">20</div>
+        <div class="cal-date">21</div>
+        <div class="cal-date">22</div>
+        <div class="cal-date">23</div> -->
+    </div>
+</body>
+<script>
+var data = document.querySelector("input");
+var calenderBox = document.querySelector(".cal-date-box");
+
+var dataJson = {
+		"ReturnCode": 0,
+		"ReturnMessage": "\u67e5\u8be2\u6863\u671f\u4fe1\u606f\u6210\u529f",
+		"ReturnData": [{
+			"free_id": 1351826,
+			"free_date": "2017-09-26",
+			"free_total": 10,
+			"free_has": 0,
+			"free_status": 1,
+			"free_left": 10,
+			"free_info": "\u6b63\u5e38\u53ef\u7ea6"
+		}, {
+			"free_id": 1351827,
+			"free_date": "2017-09-27",
+			"free_total": 10,
+			"free_has": 0,
+			"free_status": 1,
+			"free_left": 10,
+			"free_info": "\u6b63\u5e38\u53ef\u7ea6"
+		}, {
+			"free_id": 1351828,
+			"free_date": "2017-09-28",
+			"free_total": 10,
+			"free_has": 0,
+			"free_status": 1,
+			"free_left": 10,
+			"free_info": "\u6b63\u5e38\u53ef\u7ea6"
+		}, {
+			"free_id": 1351829,
+			"free_date": "2017-09-29",
+			"free_total": 10,
+			"free_has": 0,
+			"free_status": 1,
+			"free_left": 10,
+			"free_info": "\u6b63\u5e38\u53ef\u7ea6"
+		}, {
+			"free_id": 1351830,
+			"free_date": "2017-09-30",
+			"free_total": 10,
+			"free_has": 0,
+			"free_status": 2,
+			"free_left": 10,
+			"free_info": "\u4e34\u65f6\u5173\u95ed"
+		}, {
+			"free_id": 1351831,
+			"free_date": "2017-10-01",
+			"free_total": 10,
+			"free_has": 0,
+			"free_status": 2,
+			"free_left": 10,
+			"free_info": "\u4e34\u65f6\u5173\u95ed"
+		}, {
+			"free_id": 1351832,
+			"free_date": "2017-10-02",
+			"free_total": 10,
+			"free_has": 0,
+			"free_status": 0,
+			"free_left": 10,
+			"free_info": "\u95e8\u5e97\u4f11\u606f"
+		}, {
+			"free_id": 1351833,
+			"free_date": "2017-10-03",
+			"free_total": 10,
+			"free_has": 0,
+			"free_status": 2,
+			"free_left": 10,
+			"free_info": "\u4e34\u65f6\u5173\u95ed"
+		}, {
+			"free_id": 1351834,
+			"free_date": "2017-10-04",
+			"free_total": 10,
+			"free_has": 0,
+			"free_status": 2,
+			"free_left": 10,
+			"free_info": "\u4e34\u65f6\u5173\u95ed"
+		}, {
+			"free_id": 1351835,
+			"free_date": "2017-10-05",
+			"free_total": 10,
+			"free_has": 0,
+			"free_status": 2,
+			"free_left": 10,
+			"free_info": "\u4e34\u65f6\u5173\u95ed"
+		}, {
+			"free_id": 1351836,
+			"free_date": "2017-10-06",
+			"free_total": 10,
+			"free_has": 0,
+			"free_status": 2,
+			"free_left": 10,
+			"free_info": "\u4e34\u65f6\u5173\u95ed"
+		}, {
+			"free_id": 1351837,
+			"free_date": "2017-10-07",
+			"free_total": 10,
+			"free_has": 0,
+			"free_status": 2,
+			"free_left": 10,
+			"free_info": "\u4e34\u65f6\u5173\u95ed"
+		}, {
+			"free_id": 1351838,
+			"free_date": "2017-10-08",
+			"free_total": 10,
+			"free_has": 0,
+			"free_status": 2,
+			"free_left": 10,
+			"free_info": "\u4e34\u65f6\u5173\u95ed"
+		}, {
+			"free_id": 1351839,
+			"free_date": "2017-10-09",
+			"free_total": 10,
+			"free_has": 0,
+			"free_status": 0,
+			"free_left": 10,
+			"free_info": "\u95e8\u5e97\u4f11\u606f"
+		}, {
+			"free_id": 1351840,
+			"free_date": "2017-10-10",
+			"free_total": 10,
+			"free_has": 0,
+			"free_status": 1,
+			"free_left": 10,
+			"free_info": "\u6b63\u5e38\u53ef\u7ea6"
+		}, {
+			"free_id": 1351841,
+			"free_date": "2017-10-11",
+			"free_total": 10,
+			"free_has": 0,
+			"free_status": 1,
+			"free_left": 10,
+			"free_info": "\u6b63\u5e38\u53ef\u7ea6"
+		}, {
+			"free_id": 1351842,
+			"free_date": "2017-10-12",
+			"free_total": 10,
+			"free_has": 0,
+			"free_status": 1,
+			"free_left": 10,
+			"free_info": "\u6b63\u5e38\u53ef\u7ea6"
+		}, {
+			"free_id": 1351843,
+			"free_date": "2017-10-13",
+			"free_total": 10,
+			"free_has": 0,
+			"free_status": 1,
+			"free_left": 10,
+			"free_info": "\u6b63\u5e38\u53ef\u7ea6"
+		}, {
+			"free_id": 1351844,
+			"free_date": "2017-10-14",
+			"free_total": 10,
+			"free_has": 0,
+			"free_status": 1,
+			"free_left": 10,
+			"free_info": "\u6b63\u5e38\u53ef\u7ea6"
+		}, {
+			"free_id": 1351845,
+			"free_date": "2017-10-15",
+			"free_total": 10,
+			"free_has": 0,
+			"free_status": 1,
+			"free_left": 10,
+			"free_info": "\u6b63\u5e38\u53ef\u7ea6"
+		}, {
+			"free_id": 1351846,
+			"free_date": "2017-10-16",
+			"free_total": 10,
+			"free_has": 0,
+			"free_status": 0,
+			"free_left": 10,
+			"free_info": "\u95e8\u5e97\u4f11\u606f"
+		}, {
+			"free_id": 1351847,
+			"free_date": "2017-10-17",
+			"free_total": 10,
+			"free_has": 0,
+			"free_status": 1,
+			"free_left": 10,
+			"free_info": "\u6b63\u5e38\u53ef\u7ea6"
+		}, {
+			"free_id": 1351848,
+			"free_date": "2017-10-18",
+			"free_total": 10,
+			"free_has": 0,
+			"free_status": 1,
+			"free_left": 10,
+			"free_info": "\u6b63\u5e38\u53ef\u7ea6"
+		}, {
+			"free_id": 1351849,
+			"free_date": "2017-10-19",
+			"free_total": 10,
+			"free_has": 0,
+			"free_status": 1,
+			"free_left": 10,
+			"free_info": "\u6b63\u5e38\u53ef\u7ea6"
+		}, {
+			"free_id": 1351850,
+			"free_date": "2017-10-20",
+			"free_total": 10,
+			"free_has": 0,
+			"free_status": 1,
+			"free_left": 10,
+			"free_info": "\u6b63\u5e38\u53ef\u7ea6"
+		}, {
+			"free_id": 1351851,
+			"free_date": "2017-10-21",
+			"free_total": 10,
+			"free_has": 0,
+			"free_status": 1,
+			"free_left": 10,
+			"free_info": "\u6b63\u5e38\u53ef\u7ea6"
+		}, {
+			"free_id": 1351852,
+			"free_date": "2017-10-22",
+			"free_total": 10,
+			"free_has": 0,
+			"free_status": 1,
+			"free_left": 10,
+			"free_info": "\u6b63\u5e38\u53ef\u7ea6"
+		}, {
+			"free_id": 1351853,
+			"free_date": "2017-10-23",
+			"free_total": 10,
+			"free_has": 0,
+			"free_status": 0,
+			"free_left": 10,
+			"free_info": "\u95e8\u5e97\u4f11\u606f"
+		}, {
+			"free_id": 1351854,
+			"free_date": "2017-10-24",
+			"free_total": 10,
+			"free_has": 0,
+			"free_status": 1,
+			"free_left": 10,
+			"free_info": "\u6b63\u5e38\u53ef\u7ea6"
+		}, {
+			"free_id": 1351855,
+			"free_date": "2017-10-25",
+			"free_total": 10,
+			"free_has": 0,
+			"free_status": 1,
+			"free_left": 10,
+			"free_info": "\u6b63\u5e38\u53ef\u7ea6"
+		}]
+	}
+console.log(dataJson.ReturnData);
+
+var dateList = dataJson.ReturnData;
+// dateList.forEach(function(item,i){
+// 	console.log(item.free_date)
+// });
+//获取当前月份天数
+function mGetDate(year, month){
+    var d = new Date(year, month, 0);
+    return d.getDate();
+};
+//获取档期起始时间
+console.log(dateList[0].free_date)
+var startDate = new Date(dateList[0].free_date);
+var mYear = startDate.getFullYear();
+var mMonth = startDate.getMonth();
+var mday = startDate.getDate();
+//console.log(mYear,mMonth,mday)//档期开始时间年月日
+var currentDaysLen = mGetDate(mYear, mMonth);//获取当前月份天数
+var weeksArr = ["日","一","二","三","四","五","六"];
+var getFirstWeek = new Date(mYear,mMonth,1).getDay();//获取档期月份1号周几;
+var syDaysLen = currentDaysLen - mday + 1;//当前月份剩余可预约天数
+// console.log(weeksArr[getFirstWeek]);
+var daysHtml = '';
+for(var j = 1 ;j <= getFirstWeek; j++){
+	daysHtml+= `<div class="cal-date passDay"><em></em></div>`;
+}
+for(var i = 1;i < currentDaysLen;i++){
+	if(i < mday){
+		daysHtml+= `<div class="cal-date invaild"><em>${i}</em></div>`;
+	}else{
+		daysHtml+= `<div class="cal-date"><em>${i}</em></div>`;
+	}
+}
+calenderBox.innerHTML = daysHtml;
+console.log(dateList.slice(0,currentDaysLen-mday));
+
+// 倒计时
+function timeFun(dom, time) {
+    if (time == 0) {
+        dom.removeAttribute("disabled");
+        dom.value = "重新获取";
+    } else {
+        dom.setAttribute("disabled", true);
+        dom.value = time-- + " s";
+        setTimeout(function() {
+            timeFun(dom, time);
+        },1000);
+    }
+}
+data.onclick = function(){
+timeFun(this, 10)
+}
+</script>
+
+</html>

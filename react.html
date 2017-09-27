@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <script src="https://cdn.bootcss.com/react/15.4.2/react.min.js"></script>
+    <script src="https://cdn.bootcss.com/react/15.4.2/react-dom.min.js"></script>
+    <script src="https://cdn.bootcss.com/babel-standalone/6.22.1/babel.min.js"></script>
+    <title>Document</title>
+</head>
+<style>
+    .mm{
+        color: red;
+    }
+</style>
+
+<body>
+    <div id="app1"></div>
+    <div id="app2"></div>
+    <div id="app3"></div>
+    <div id="app4"></div>
+    <div id="app5"></div>
+    <div id="app6"></div>
+    <div id="app7"></div>
+    <div id="app8"></div>
+    <div id="app9"></div>
+    <div id="app10"></div>
+    <div id="app11"></div>
+    <div id="app12"></div>
+    <div id="app13"></div>
+    <div id="app14"></div>
+    <div id="app15"></div>
+</body>
+<script type="text/babel">
+    var Name = React.createClass({
+        render: function(){
+            return <h1>{this.props.name}</h1>;
+        }
+    });
+    var Link= React.createClass({
+        render: function(){
+            return <h1>{this.props.link}</h1>;
+        }
+    })
+    var Website = React.createClass({
+        render: function(){
+        return  <div>
+                    <Name name={this.props.name} />
+                    <Link link={this.props.link} />
+                </div>;
+        }
+    })
+    ReactDOM.render(
+        <Website name="张强的个人网站" link="www.baidu.com" />,
+        document.querySelector("#app1")
+    )
+
+
+    var LikeButton = React.createClass({
+        getInitialState: function() {
+          return {liked: false,count: 0};
+        },
+        handleClick: function(event) {
+          this.setState(function(state){return {liked: !state.liked,count: state.count+1}});
+        },
+        render: function() {
+          var text = this.state.liked ? '喜欢' : '不喜欢';
+          var count = this.state.count;
+          return (
+            <div onClick={this.handleClick} className="mm">
+              你<b>{text}</b>我。点我切换状态{count}。
+            </div>
+          );
+        }
+    });
+    ReactDOM.render(
+        <LikeButton />,
+        document.getElementById('app2')
+    )
+
+
+    const user = {
+        firstName: "Zhu",
+        lastName: "zeliang"
+    };
+    function name(user){
+        return user.firstName + " " + user.lastName;
+    }
+
+    ReactDOM.render(
+        <h1 tabIndex="0">{name(user)}</h1>,
+        document.querySelector("#app3")
+    )
+
+    function tick() {
+      const element = (
+        <div>
+          <h1>Hello, world!</h1>
+          <h2>It is {new Date().toLocaleTimeString()}.</h2>
+        </div>
+      );
+      ReactDOM.render(
+        element,
+        document.getElementById('app4')
+      );
+    }
+
+    setInterval(tick, 1000);
+
+
+    function Welcome(props){
+        return <h1>welcome {props.name}</h1>;
+    };
+    ReactDOM.render(
+        <Welcome name="react" />,
+        document.querySelector("#app5")
+    )
+    
+    class Clock extends React.Component {
+      constructor(props) {
+        super(props);
+        this.state = {date: new Date()};
+      }
+      componentDidMount() {
+        this.timerID = setInterval(
+          () => this.tick(),
+          1000
+        );
+      }
+      componentWillUnmount() {
+        clearInterval(this.timerID);
+      }
+      tick() {
+        this.setState({
+          date: new Date()
+        });
+      }
+      render() {
+        return (
+          <div>
+            <h1>Hello, world!</h1>
+            <h2>It is {this.state.date.toLocaleTimeString()}.</h2>
+          </div>
+        );
+      }
+    }
+
+    ReactDOM.render(
+      <Clock />,
+      document.getElementById('app6')
+    );
+
+    {/*绑定事件的方法*/}
+    class Toggle extends React.Component {
+      constructor(props) {
+        super(props);
+        this.state = {isToggleOn: true,count: 1};
+        this.handleClick = this.handleClick.bind(this);
+      }
+      handleClick() {
+        this.setState(prevState => ({
+          isToggleOn: !prevState.isToggleOn,
+          count: prevState.count + 1
+        }));
+      }
+      change = () => {
+        console.log('this is:', this);
+      }
+      render() {
+        return (
+            <div>
+              <button onClick={this.handleClick}>
+                {this.state.count}
+                {this.state.isToggleOn ? 'ON' : 'OFF'}
+              </button>
+              <button onClick={this.change}>change</button>
+            </div>
+        );
+      }
+    }
+
+    ReactDOM.render(
+      <Toggle />,
+      document.getElementById('app7')
+    );
+
+
+
+    class LoginControl extends React.Component {
+      constructor(props) {
+        super(props);
+        this.handleLoginClick = this.handleLoginClick.bind(this);
+        this.handleLogoutClick = this.handleLogoutClick.bind(this);
+        this.state = {isLoggedIn: false};
+      }
+
+      handleLoginClick() {
+        this.setState({isLoggedIn: true});
+      }
+
+      handleLogoutClick() {
+        this.setState({isLoggedIn: false});
+      }
+
+      render() {
+        const isLoggedIn = this.state.isLoggedIn;
+
+        let button = null;
+        if (isLoggedIn) {
+          button = <LogoutButton onClick={this.handleLogoutClick} />;
+        } else {
+          button = <LoginButton onClick={this.handleLoginClick} />;
+        }
+
+        return (
+          <div>
+            <Greeting isLoggedIn={isLoggedIn} />
+            {button}
+          </div>
+        );
+      }
+    }
+    function LoginButton(props) {
+      return (
+        <button onClick={props.onClick}>
+          Login
+        </button>
+      );
+    }
+    
+    function LogoutButton(props) {
+      return (
+        <button onClick={props.onClick}>
+          Logout
+        </button>
+      );
+    }
+
+    function Greeting(props) {
+      const isLoggedIn = props.isLoggedIn;
+      if (isLoggedIn) {
+        return <h1>Welcome back!</h1>;
+      }
+      return <h1>Please sign up.</h1>;
+    }
+    ReactDOM.render(
+      <LoginControl />,
+      document.getElementById('app8')
+    );
+
+
+    function Mailbox(props) {
+      const unreadMessages = props.unreadMessages;
+      return (
+        <div>
+          <h1>Hello!</h1>
+          {unreadMessages.length > 0 &&
+            <h2>
+              You have {unreadMessages.length} unread messages.
+            </h2>
+          }
+        </div>
+      );
+    }
+
+    const messages = ['React', 'Re: React', 'Re:Re: React'];
+    ReactDOM.render(
+      <Mailbox unreadMessages={messages} />,
+      document.getElementById('app9')
+    );
+
+    const numberArr = [1, 2, 3, 4, 5];
+
+
+    function NumberList(props){
+        let numbers = props.numbers;
+        let numberList = numbers.map((number) => <li className={number == '2' ? "mm active" : "mm"} >{number * 2}</li>);
+        return (
+            <ul>{numberList}</ul>
+        );
+    }
+    ReactDOM.render(
+        <NumberList numbers = {numberArr} />,
+        document.querySelector("#app10")
+    )
+
+
+    class NameForm extends React.Component {
+      constructor(props) {
+        super(props);
+        this.state = {value: ''};
+
+        this.handleChange = this.handleChange.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
+      }
+
+      handleChange(event) {
+        this.setState({value: event.target.value});
+      }
+
+      handleSubmit(event) {
+        alert('A name was submitted: ' + this.state.value);
+        event.preventDefault();
+      }
+
+      render() {
+        return (
+          <form onSubmit={this.handleSubmit}>
+            <label>
+              Name:
+              <input type="text" value={this.state.value} onChange={this.handleChange} />{this.state.value}
+            </label>
+            <input type="submit" value="Submit" style={{color:'red',fontSize:'30px'}}/>
+          </form>
+        );
+      }
+    }
+
+    ReactDOM.render(
+        <NameForm />,
+        document.querySelector("#app11")
+    )
+
+    class CustomTextInput extends React.Component {
+      constructor(props) {
+        super(props);
+        this.focusTextInput = this.focusTextInput.bind(this);
+      }
+
+      focusTextInput() {
+        this.textInput.focus();
+        console.log(this)
+      }
+
+      render() {
+        return (
+          <div>
+            <input
+              type="text"
+              ref={(input) => { this.textInput = input;this.name = input; }} />
+            <input
+              type="button"
+              value="Focus the text input"
+              onClick={this.focusTextInput}
+            />
+          </div>
+        );
+      }
+    }
+     ReactDOM.render(
+        <CustomTextInput  />,
+        document.querySelector("#app12")
+    )
+
+
+    class CounterButton extends React.Component {
+      constructor(props) {
+        super(props);
+        this.state = {count: 1};
+      }
+
+      shouldComponentUpdate(nextProps, nextState) {
+        if (this.props.color !== nextProps.color) {
+        alert(11)
+          return true;
+        }
+        if (this.state.count !== nextState.count) {
+        alert(11)
+          return true;
+        }
+        return false;
+      }
+
+      render() {
+        return (
+          <button
+            color={this.props.color}
+            onClick={() => this.setState(state => ({count: state.count + 1}))}>
+            Count: {this.state.count}
+          </button>
+        );
+      }
+    }
+     ReactDOM.render(
+        <CounterButton />,
+        document.querySelector("#app13")
+    )
+
+    class ListOfWords extends React.PureComponent {
+      render() {
+        return <div>{this.props.words.join(',')}</div>;
+      }
+    }
+
+    class WordAdder extends React.Component {
+      constructor(props) {
+        super(props);
+        this.state = {
+          words: ['marklar']
+        };
+        this.handleClick = this.handleClick.bind(this);
+      }
+
+      handleClick() {
+        const words = this.state.words;
+        words.push('marklar');
+        this.setState({words: words});
+      }
+
+      render() {
+        return (
+          <div>
+            <button onClick={this.handleClick}>点我</button>
+            <ListOfWords words={this.state.words} />
+          </div>
+        );
+      }
+    }
+
+     ReactDOM.render(
+        <WordAdder />,
+        document.querySelector("#app14")
+    )
+
+</script>
+
+</html>

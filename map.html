@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>地图导航</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta content="yes" name="apple-mobile-web-app-capable" />
+    <meta content="black" name="apple-mobile-web-app-status-bar-style" />
+    <meta content="telephone=no" name="format-detection" />
+    <meta content="email=no" name="format-detection" />
+    <link rel="stylesheet" href="css/map.css">
+    <script src="js/jquery.min.js"></script>
+</head>
+
+<body>
+    <div id="allmap"></div>
+    <div class="navigation">
+        <div class="name">上海市协和医院</div>
+        <div class="address">
+            <label>地址：</label>
+            <span>上海市松江区九亭镇九新公路58号</span>
+        </div>
+        <a href="###" class="btn-link">到这里去</a>
+    </div>
+</body>
+<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=yEFGek5V1C4CFFMUTvzuVD5h7AiVGKbk"></script>
+<script>
+// H5 获取用户当前信息 ios不支持http
+// function getLocation() {
+//     var options = {
+//         enableHighAccuracy: true,
+//         maximumAge: 1000
+//     }
+//     if (navigator.geolocation) { //判断是否支持地理定位
+//         //如果支持，则运行getCurrentPosition()方法。
+//         navigator.geolocation.getCurrentPosition(onSuccess, onError, options);
+//     } else {
+//         //如果不支持，则向用户显示一段消息
+//         alert("对不起，您的浏览器不支持获取地理位置信息");
+//     }
+// }
+// getLocation();
+// //地理位置获取成功
+// function onSuccess(position) {
+//     //百度地图经纬度转地址
+//     var y = position.coords.latitude;
+//     var x = position.coords.longitude;
+//     var locationStr = x + ',' + y;
+//     //gps坐标转百度坐标
+//     $.ajax({
+//         url: 'http://api.map.baidu.com/geoconv/v1/',
+//         type: 'GET',
+//         dataType: 'jsonp',
+//         data: {
+//             ak: 'yEFGek5V1C4CFFMUTvzuVD5h7AiVGKbk',
+//             coords: locationStr,
+//             output: 'json'
+//         },
+//         success: function(data) {
+//             var bX = data.result[0].x;
+//             var bY = data.result[0].y;
+//             // 用经纬度设置地图中心点
+//             var map = new BMap.Map("allmap");
+//             map.centerAndZoom(new BMap.Point(bX, bY), 15);
+//             map.enableScrollWheelZoom(true);
+//             var new_point = new BMap.Point(bX, bY);
+//             var marker = new BMap.Marker(new_point);
+//             map.addOverlay(marker);
+//             map.panTo(new_point);
+//             //跳转百度地图H5导航  目的地坐标及目的地城市
+//             $(".btn-link").on("click", function() {
+//                 window.location.href = "http://api.map.baidu.com/direction?origin=" + y + "," + x + "&destination=31.139426,121.310062&mode=driving&region=上海&output=html";
+//             })
+//         },
+//         error: function() {
+//             alert('定位失败');
+//         }
+//     })
+// };
+// // 地理位置获取失败
+// function onError(error) {
+//     switch (error.code) {
+//         case 1:
+//             alert("位置服务被拒绝");
+//             break;
+
+//         case 2:
+//             alert("暂时获取不到位置信息");
+//             break;
+
+//         case 3:
+//             alert("获取信息超时");
+//             break;
+
+//         case 4:
+//             alert("未知错误");
+//             break;
+//     }
+// };
+
+
+//百度地图
+var geolocation = new BMap.Geolocation();
+geolocation.getCurrentPosition(function(r) {
+    console.log(r);
+    if (this.getStatus() == BMAP_STATUS_SUCCESS) {
+        //获取用户当前位置信息
+        var originY = r.point.lat;
+        var originX = r.point.lng;
+        var originStr = originY + ',' + originX;
+        var desY = 31.139426;//目的地后台纬度数据
+        var desX = 121.310062;//目的地后台经度数据
+        var desCity = r.address.city;//目的地城市名
+        //目的地gps坐标转百度坐标,若为百度坐标则不需要转化
+        $.ajax({
+            url: 'http://api.map.baidu.com/geoconv/v1/',
+            type: 'GET',
+            dataType: 'jsonp',
+            data: {
+                ak: 'yEFGek5V1C4CFFMUTvzuVD5h7AiVGKbk',
+                coords: desX + ',' + desY,
+                output: 'json'
+            },
+            success: function(data) {
+                var bX = data.result[0].x;
+                var bY = data.result[0].y;
+                var desStr = bY + ',' + bX;
+                // 用经纬度设置地图中心点
+                var map = new BMap.Map("allmap");
+                map.centerAndZoom(new BMap.Point(bX, bY), 15);
+                map.enableScrollWheelZoom(true);
+                var new_point = new BMap.Point(bX, bY);
+                var marker = new BMap.Marker(new_point);
+                map.addOverlay(marker);
+                map.panTo(new_point);
+                //跳转百度地图H5导航
+                $(".btn-link").on("click", function() {
+                    window.location.href = "http://api.map.baidu.com/direction?origin=" + originStr + "&destination=" + desStr + "&mode=driving&region=" + desCity + "&output=html";
+                });
+            },
+            error: function() {
+                alert('定位失败');
+            }
+        })
+    }else{
+        alert('地图信息暂时无法加载');
+    }
+});
+</script>
+
+</html>

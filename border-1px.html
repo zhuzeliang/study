@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <link rel="stylesheet" href="css/index.min.css">
+    <link rel="stylesheet" href="css/reset.min.css">
+	<title>1px</title>
+</head>
+<style>
+	.box1{
+		border-width: 0;
+	    border-style: solid;
+		border-width: 1px;
+	    border-image: url('data:image/gif;base64,R0lGODlhBQAFAPABANra2v///yH5BAUHAAEALAAAAAAFAAUAAAIHhB9pGatnCgA7') 2 stretch;
+	    padding: 10px;
+	}
+	div{
+		margin-top: 20px;
+	}
+	.box{
+		padding: 10px;
+		border: 1px solid #e5e5e5;
+	}
+	.box2{
+		padding: 10px;
+		position: relative;
+		overflow: hidden;
+		display: block;
+
+		margin-top: 20px;
+	}
+	.box2:after{
+		content: "\200B";
+	    position: absolute;
+	    left: 0;
+	    top: 0;
+	    width: 200%;
+	    height: 200%;
+	    border: 1px solid rgba(0, 0, 0, 0.2);
+	    color: #E5E5E5;
+	    -webkit-transform-origin: 0 0;
+	    transform-origin: 0 0;
+	    -webkit-transform: scale(0.5);
+	    transform: scale(0.5);
+	    border-radius: 10px;
+	    box-sizing: border-box;
+	}
+	/* .box2:before{
+		content: "\200B";
+	    position: absolute;
+	    left: 0;
+	    bottom: 0;
+	    right: 0;
+	    height: 1px;
+	    border-top: 1px solid #E5E5E5;
+	    color: #E5E5E5;
+	    -webkit-transform-origin: 0 0;
+	    transform-origin: 0 0;
+	    -webkit-transform: scaleY(0.5);
+	    transform: scaleY(0.5);
+	} */
+</style>
+<body>
+	<h1>移动端border 1px解决方法</h1>
+	<div class="box">未处理1px</div>
+	<div class="box1">这是采用图片处理1px</div>
+	<a href="calender.html" class="box2">transform:scale缩放</a>
+</body>
+</html>

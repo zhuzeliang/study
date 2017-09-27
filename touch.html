@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+    <script src="js/jquery.min.js"></script>
+    <script src="js/swipeSlide.min.js"></script>
+</head>
+<style type="text/css">
+.box {
+    width: 100px;
+    height: 100px;
+    background: red;
+    margin-top: 100px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    /* 防止点击闪烁 */
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    /* 缩放网页，文字大小不变 */
+    -webkit-text-size-adjust: none;
+}
+
+body {
+    font-size: 14px;
+}
+
+h1 {
+    font-size: 16px;
+}
+
+h2 {
+    font-size: 14px;
+}
+
+.slide {
+    position: relative;
+    max-width: 640px;
+    overflow: hidden;
+    margin: 20px auto;
+}
+
+.slide:after {
+    content: '';
+    display: block;
+    width: 100%;
+    padding-top: 50%;
+}
+
+.slide ul {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.slide li {
+    list-style: none;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+}
+
+
+/* 解决js阻塞页面显示首屏 */
+
+.slide li:first-child {
+    z-index: 1;
+}
+
+.slide li img {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+.slide .dot {
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+    z-index: 5;
+    font-size: 0;
+}
+
+.slide .dot span {
+    display: inline-block;
+    width: 5px;
+    height: 5px;
+    margin-left: 5px;
+    border: 1px solid #fff;
+    border-radius: 50%;
+}
+
+.slide .dot .cur {
+    background-color: #fff;
+}
+
+
+/* 测试横竖屏 */
+
+#slide1 {
+    width: 320px;
+}
+</style>
+
+<body>
+    <div class="box"></div>
+    <div class="slide" id="slide3">
+	    <ul>
+	        <li>
+	            <a href="//m.yhd.com/">
+	                <img src="http://d10.yihaodianimg.com/V00/M03/4D/41/CgQDsVQG4d6AISZPAAFa7N3KyPY18100.jpg" alt="">
+	            </a>
+	        </li>
+	        <li>
+	            <a href="//www.baidu.com/">
+	                <img src="http://d10.yihaodianimg.com/V00/M04/32/59/CgQDsVQDEtaAVv4BAAEFc6n3fws75000.jpg" alt="">
+	            </a>
+	        </li>
+	      
+	    </ul>
+	    <div class="dot">
+	        <span></span>
+	        <span></span>
+	    </div>
+	</div>
+
+</body>
+
+</html>
+<script>
+;
+(function($) {
+    $.fn.extend({ //局部插件，去掉.fn是全局插件
+        'swipeleft': function(fn) { //手指左滑动，fn是回调函数
+            $(this).on('touchstart', function(e) {
+                e = e.originalEvent.touches[0]; //获取对应触摸对象
+                var sx = 0;
+                sx = e.pageX;
+                $(this).on('touchend', function(e) {
+                    e = e.originalEvent.changedTouches[0]; //获取对应触摸对象
+                    if ((sx - e.pageX) > 50) { //如果滑动距离大于50px就认为是要触发左滑动事件了
+                        fn(); //调用回调函数
+                    }
+                    $(this).unbind('touchend');
+                });
+            });
+            return this;
+        },
+        'swiperight': function(fn) { //手指右滑动，fn是回调函数
+            $(this).on('touchstart', function(e) {
+                e = e.originalEvent.touches[0]; //获取对应触摸对象
+                var sx = 0;
+                sx = e.pageX;
+                $(this).on('touchend', function(e) {
+                    e = e.originalEvent.changedTouches[0]; //获取对应触摸对象
+                    if ((e.pageX - sx) > 50) { //如果滑动距离大于50px就认为是要触发右滑动事件了
+                        fn(); //调用回调函数
+                    }
+                    $(this).unbind('touchend');
+                });
+            });
+        },
+        'swipetop': function(fn) { //手指上滑动，fn是回调函数
+            $(this).on('touchstart', function(e) {
+                e = e.originalEvent.touches[0]; //获取对应触摸对象
+                var sy = 0;
+                sy = e.pageY;
+                $(this).on('touchend', function(e) {
+                    e = e.originalEvent.changedTouches[0]; //获取对应触摸对象
+                    if ((sy - e.pageY) > 50) { //如果滑动距离大于50px就认为是要触发上滑动事件了
+                        fn(); //调用回调函数
+                    }
+                    $(this).unbind('touchend');
+                });
+            });
+        },
+        'swipedown': function(fn) { //手指下滑动，fn是回调函数
+            $(this).on('touchstart', function(e) {
+                e = e.originalEvent.touches[0]; //获取对应触摸对象
+                var sy = 0;
+                sy = e.pageY;
+                $(this).on('touchend', function(e) {
+                    e = e.originalEvent.changedTouches[0]; //获取对应触摸对象
+                    if ((e.pageY - sy) > 50) { //如果滑动距离大于50px就认为是要触发下滑动事件了
+                        fn(); //调用回调函数
+                    }
+                    $(this).unbind('touchend');
+                });
+            });
+        }
+    });
+})(jQuery);
+$(".box").swiperight(function() {
+    console.log(11)
+})
+ $('#slide3').swipeSlide({
+        continuousScroll:false,
+        speed : 3000,
+        transitionType : 'cubic-bezier(0.22, 0.69, 0.72, 0.88)',
+        firstCallback : function(i,sum,me){
+            me.find('.dot').children().first().addClass('cur');
+        },
+        callback : function(i,sum,me){
+            me.find('.dot').children().eq(i).addClass('cur').siblings().removeClass('cur');
+        }
+    });
+</script>

@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <link rel="stylesheet" href="css/weui.css">
+    <script src="js/weui.min.js"></script>
+    <script src="js/jquery.min.js"></script>
+    <title>Document</title>
+</head>
+
+<body>
+    <button onclick="getData();">picker</button>
+    <a href="javascript:;" id="alertBtn" class="weui-btn weui-btn_default">Alert</a>
+    <a href="javascript:;" id="alertBtn" class="weui-btn weui-btn_default">Alert</a>
+    <a href="javascript:;" id="alertBtn" class="weui-btn weui-btn_default">Alert</a>
+    <a href="javascript:;" id="alertBtn" class="weui-btn weui-btn_default">Alert</a>
+    <a href="javascript:;" id="alertBtn" class="weui-btn weui-btn_default">Alert</a>
+    <a href="javascript:;" id="alertBtn" class="weui-btn weui-btn_default">Alert</a>
+    <a href="javascript:;" id="alertBtn" class="weui-btn weui-btn_default">Alert</a>
+    <a href="javascript:;" id="alertBtn" class="weui-btn weui-btn_default">Alert</a>
+    <a href="javascript:;" id="alertBtn" class="weui-btn weui-btn_default">Alert</a>
+    <a href="javascript:;" id="alertBtn" class="weui-btn weui-btn_default">Alert</a>
+    <a href="javascript:;" id="alertBtn" class="weui-btn weui-btn_default">Alert</a>
+    <a href="javascript:;" id="alertBtn" class="weui-btn weui-btn_default">Alert</a>
+    <a href="javascript:;" id="alertBtn" class="weui-btn weui-btn_default">Alert</a>
+    <a href="javascript:;" id="alertBtn" class="weui-btn weui-btn_default">Alert</a>
+    <a href="javascript:;" id="alertBtn" class="weui-btn weui-btn_default">Alert</a>
+    <div class="page__bd">
+        <div class="weui-loadmore" style="display: none;">
+            <i class="weui-loading"></i>
+            <span class="weui-loadmore__tips">正在加载</span>
+        </div>
+        <!--  <div class="weui-loadmore weui-loadmore_line">
+            <span class="weui-loadmore__tips">暂无数据</span>
+        </div> -->
+         <div class="weui-loadmore weui-loadmore_line weui-loadmore_dot">
+            <span class="weui-loadmore__tips"></span>
+        </div>
+    </div>
+</body>
+<script>
+$(function() {
+
+    // /*初始化*/
+    // var counter = 0; /*计数器*/
+    // var pageStart = 0; /*offset*/
+    // var pageSize = 7; /*size*/
+    // var isEnd = false; /*结束标志*/
+
+    // /*首次加载*/
+    // getData(pageStart, pageSize);
+
+    // /*监听加载更多*/
+    // $(window).scroll(function() {
+    //     if (isEnd == true) {
+    //         return;
+    //     }
+
+    //     // 当滚动到最底部以上100像素时， 加载新内容
+    //     // 核心代码
+    //     if ($(document).height() - $(this).scrollTop() - $(this).height() < 100) {
+    //         counter++;
+    //         pageStart = counter * pageSize;
+
+    //         getData(pageStart, pageSize);
+    //     }
+    // });
+
+
+});
+
+// $(document).ajaxSuccess(function() {
+//     console.log(11)
+// }); 
+function getData() {
+    var loading = weui.loading('loading', {
+        className: 'custom-classname'
+    });
+    var locationStr = "23.099994,113.324520";
+    $.ajax({
+        url: 'http://api.map.baidu.com/geocoder/v2/',
+        type: 'GET',
+        dataType: 'jsonp',
+        data: {
+            ak: 'uL2Ny92Lp07mFixLbuSDT17Sfa6KAKaO',
+            location: locationStr,
+            output: 'json'
+        },
+        success: function(data) {
+            var city = data.result.addressComponent.city;
+            city = city.substr(0, city.length - 1);
+            loading.hide()
+            console.log("success");
+            console.log(city);
+            $(".weui-loadmore").hide();
+        },
+        complete: function(data) {
+            console.log("complete");
+        },
+        error: function() {
+            alert('定位失败');
+        }
+    })
+}
+
+var num = 0;
+$(window).scroll(function() {
+    var scrollTop = $(this).scrollTop();
+    var scrollHeight = $(document).height();
+    var windowHeight = $(this).height();
+    if (scrollTop + windowHeight == scrollHeight) {
+        ++num;
+        // console.log(num);
+        $("body").append(`<p>${num}</p>`);
+        $(".weui-loadmore").show();
+        getData();
+    }
+});
+</script>
+
+</html>

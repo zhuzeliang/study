@@ -58,13 +58,6 @@
         </pre>
     </div>
     <button id="btn">百度一下</button>
-    <img src="images/1.jpg" width="145" height="126" usemap="#planetmap">
-    <map name="planetmap">
-        <area id="venus" shape="circle" coords="10rem,1rem,20px" alt="Venus" href="http://www.baidu.com">
-    </map> 
-    <script>
-document.write(document.getElementById("venus").coords);
-</script> 
 </body>
 <script>
 hljs.initHighlightingOnLoad();
@@ -135,13 +128,11 @@ btn.onclick = function(){
     });
 }
 
-var a = 1;
-var b = function a() {
-    alert(this);
-}
-
-console.log(a)
-
+// (function() {
+//    var a = b = 5;
+// }());
+var a = b = 5;
+console.log(a);
 
 </script>
 

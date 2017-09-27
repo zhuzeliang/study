@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>loadmore</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, minimal-ui">
+    <meta content="yes" name="apple-mobile-web-app-capable">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta content="black" name="apple-mobile-web-app-status-bar-style">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="full-screen" content="yes">
+    <meta name="x5-fullscreen" content="true">
+</head>
+<style>
+.box {
+  /*   padding-bottom: 50px; */
+    margin-top: 40px;
+
+}
+*{
+    margin: 0;
+    padding: 0;
+}
+.load{
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    margin-top: -25px;
+    margin-left: -50px;
+    background: rgba(0,0,0,.5);
+    width: 100px;
+    height: 50px;
+    text-align: center;
+    line-height: 50px;
+    border-radius: 5px;
+    color: #fff;
+    display: none;
+}
+</style>
+
+<body>
+    <div class="box">
+        <p>这是一个大boss这是一个大boss</p>
+        <p>这是一个大boss这是一个大boss</p>
+        <p>这是一个大boss这是一个大boss</p>
+        <p>这是一个大boss这是一个大boss</p>
+        <p>这是一个大boss这是一个大boss</p>
+        <p>这是一个大boss这是一个大boss</p>
+        <p>这是一个大boss这是一个大boss</p>
+        <p>这是一个大boss这是一个大boss</p>
+        <p>这是一个大boss这是一个大boss</p>
+        <p>这是一个大boss这是一个大boss</p>
+        <p>这是一个大boss这是一个大boss</p>
+        <p>这是一个大boss这是一个大boss</p>
+        <p>这是一个大boss这是一个大boss</p>
+        <p>这是一个大boss这是一个大boss</p>
+        <p>这是一个大boss这是一个大boss</p>
+        <p>这是一个大boss这是一个大boss</p>
+        <p>这是一个大boss这是一个大boss</p>
+        <p>这是一个大boss这是一个大boss</p>
+        <p>这是一个大boss这是一个大boss</p>
+        <p>这是一个大boss这是一个大boss</p>
+    </div>
+    <div class="load">加载中...</div>
+</body>
+<script>
+    var box = document.querySelector(".box");
+    var load = document.querySelector(".load");
+    console.log(box.offsetHeight)
+const Tool = {};
+const getStyle = (obj, attr) => {
+    if (obj.currentStyle) {
+        return obj.currentStyle[attr];
+    } else {
+        return document.defaultView.getComputedStyle(obj, null)[attr];
+    }
+}
+console.log(getStyle(document.querySelector(".box"), "width"))
+const loadMore = (element, callback) => {
+    let windowHeight = window.screen.height;
+    let height;
+    let setTop;
+    let paddingBottom;
+    let marginBottom;
+    let requestFram;
+    let oldScrollTop;
+console.log("start")
+    document.body.addEventListener('scroll', () => {
+        loadMore();
+    }, false)
+    //运动开始时获取元素 高度 和 offseTop, pading, margin
+    element.addEventListener('touchstart', () => {
+        height = element.offsetHeight;
+        setTop = element.offsetTop;
+        paddingBottom = parseInt(getStyle(element, 'paddingBottom'));
+        marginBottom = parseInt(getStyle(element, 'marginBottom'));
+    }, { passive: true })
+
+    //运动过程中保持监听 scrollTop 的值判断是否到达底部
+    element.addEventListener('touchmove', () => {
+        loadMore();
+    }, { passive: true })
+
+    //运动结束时判断是否有惯性运动，惯性运动结束判断是非到达底部
+    element.addEventListener('touchend', () => {
+        oldScrollTop = document.body.scrollTop;
+        moveEnd();
+    }, { passive: true })
+
+    const moveEnd = () => {
+        requestFram = requestAnimationFrame(() => {
+            if (document.body.scrollTop != oldScrollTop) {
+                oldScrollTop = document.body.scrollTop;
+                loadMore();
+                moveEnd();
+            } else {
+                cancelAnimationFrame(requestFram);
+                //为了防止鼠标抬起时已经渲染好数据从而导致重获取数据，应该重新获取dom高度
+                height = element.offsetHeight;
+                loadMore();
+            }
+        })
+    }
+
+    const loadMore = () => {
+        if (document.documentElement.scrollTop + windowHeight >= height + setTop + paddingBottom + marginBottom) {
+            callback();
+            // console.log(888)
+        }
+        console.log(document.documentElement.scrollTop + windowHeight ,height + setTop + paddingBottom + marginBottom)
+    }
+}
+
+loadMore(document.querySelector(".box"),function(){load.style.display = "block"})
+</script>
+
+</html>
