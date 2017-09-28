@@ -1,0 +1,113 @@
+@charset "UTF-8";
+@import "variable";
+@import "mixins";
+@import "reset";
+@import "common";
+@import "button";
+@import "swipeSlide";
+@import "dropload";
+@import "footer";
+.container{
+	padding-bottom: 1.1rem;
+}
+.zui-nav-list {
+    @include flexbox;
+    background: #fff;
+    margin-bottom: 0.30rem;
+    .zui-nav {
+        @include flexbox;
+        @include flex(1);
+        @include vertical;
+        @include vertical-layout(center);
+        @include horizontal-layout(center);
+        width: 0;
+        padding: 0.25rem 0.10rem;
+        .zui-nav-img {
+            margin-bottom: 0.15rem;
+            img {
+                height: 0.62rem;
+                display: block;
+            }
+        }
+    }
+}
+
+.whole-recommend {
+    @include flexbox;
+    @include vertical-layout(center);
+    @include horizontal-layout(justify);
+    height: 0.90rem;
+    line-height: 0.90rem;
+    background: #fff;
+    padding: 0 0.30rem;
+    h2 {
+        font-weight: normal;
+        font-size: 0.34rem;
+    }
+    .city {
+    	display:block;
+        background: url(/static/images/icon/location.png) no-repeat left center;
+        background-size: 0.25rem auto;
+        padding-left: 0.30rem;
+        color: $main-color;
+    }
+}
+
+
+.product {
+    display: block;
+    @include flexbox;
+    background: #fff;
+    padding: 0.30rem;
+    .product-img {
+        img {
+            display: block;
+            width: 2.0rem;
+            height: 1.50rem;
+        }
+    }
+    .product-text {
+        @include flex(1);
+        @include flexbox;
+        @include vertical;
+        // @include horizontal-layout(center);
+        margin-left: 0.20rem;
+        color: $sub-font-color;
+        .product-text-sub {
+            @include flexbox;
+            @include vertical-layout(end);
+            .product-name {
+                @include flex(1);
+                @include clamp(1);
+                margin-right: 0.20rem;
+                font-size: 0.32rem;
+                color: $main-font-color;
+            }
+        }
+        .product-text-star {
+            font-size: 0;
+            @include flex(1);
+        	@include flexbox;
+        	@include vertical-layout(start);
+            .star {
+                display: inline-block;
+                width: 0.28rem;
+                height: 0.28rem;
+                background: url(/static/images/icon/star.png) no-repeat center center;
+                background-size: 0.28rem;
+                margin-right:0.10rem;
+            }
+            .star-b {
+                display: inline-block;
+                width: 0.28rem;
+                height: 0.28rem;
+                background: url(/static/images/icon/star-b.png) no-repeat center center;
+                background-size: 0.28rem;
+                margin-right:0.10rem;
+            }
+        }
+        .product-text-address{
+        	@include clamp(1);
+        }
+    }
+}

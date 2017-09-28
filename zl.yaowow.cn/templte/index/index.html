@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>主页</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta content="yes" name="apple-mobile-web-app-capable" />
+    <meta content="black" name="apple-mobile-web-app-status-bar-style" />
+    <meta content="telephone=no" name="format-detection" />
+    <meta content="email=no" name="format-detection" />
+    <link rel="stylesheet" href="/static/css/weui.min.css">
+    <link rel="stylesheet" href="/static/css/index.css">
+    <script src="/static/js/jquery.min.js"></script>
+    <script src="/static/js/config.js"></script>
+    <script src="/static/js/weui.min.js"></script>
+    <script src="/static/js/swipeSlide.min.js"></script>
+    <script src="/static/js/dropload.min.js"></script>
+</head>
+
+<body>
+    <div class="container">
+        <!-- 轮播图start -->
+        <div class="slide" id="slide3">
+            <ul>
+                <li>
+                    <a href="###">
+                        <img src="/static/images/test/a.png" alt="图片">
+                    </a>
+                </li>
+                <li>
+                    <a href="###">
+                        <img src="/static/images/test/b.png" alt="图片">
+                    </a>
+                </li>
+                <li>
+                    <a href="###">
+                        <img src="/static/images/test/a.png" alt="图片">
+                    </a>
+                </li>
+            </ul>
+            <div class="dot">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+        <!-- 轮播图 end-->
+        <div class="zui-nav-list">
+            <a href="###" class="zui-nav">
+                <div class="zui-nav-img">
+                    <img src="/static/images/icon/money.png" alt="领红包">
+                </div>
+                <p>领红包</p>
+            </a>
+            <a href="###" class="zui-nav">
+                <div class="zui-nav-img">
+                    <img src="/static/images/icon/recom.png" alt="推荐有奖">
+                </div>
+                <p>推荐有奖</p>
+            </a>
+            <a href="###" class="zui-nav">
+                <div class="zui-nav-img">
+                    <img src="/static/images/icon/order.png" alt="我的订单">
+                </div>
+                <p>我的订单</p>
+            </a>
+        </div>
+        <div class="whole-recommend">
+            <h2>全城推荐</h2>
+            <a href="###" class="city">定位中...</a>
+        </div>
+        <div class="content">
+	        <div class="product-list">
+	            <!-- <a href="###" class="product">
+	                <div class="product-img">
+	                    <img src="/static/images/test/product.png" alt="">
+	                </div>
+	                <div class="product-text">
+	                    <div class="product-text-sub">
+	                        <p class="product-name">途虎养车徐汇店</p>
+	                        <p class="distance">距离5.9km</p>
+	                    </div>
+	                    <div class="product-text-star">
+	                        <span class="star"></span>
+	                        <span class="star"></span>
+	                        <span class="star"></span>
+	                        <span class="star"></span>
+	                        <span class="star-b"></span>
+	                    </div>
+	                    <div class="product-text-address">
+	                        上海市徐家汇区徐家汇路400号
+	                    </div>
+	                </div>
+	            </a> -->
+	        </div>
+        </div>
+    </div>
+    <footer>
+    	<div class="footer">
+    		<a href="###" class="footer-tab current index">
+    			<div class="footer-tab-icon"></div>
+    			<p>主页</p>
+    		</a>
+    		<a href="###" class="footer-tab store">
+    			<div class="footer-tab-icon"></div>
+    			<p>门店</p>
+    		</a>
+    		<a href="###" class="footer-tab my">
+    			<div class="footer-tab-icon"></div>
+    			<p>我的</p>
+    		</a>
+    	</div>
+    </footer>
+</body>
+<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=yEFGek5V1C4CFFMUTvzuVD5h7AiVGKbk"></script>
+<script>
+$(document).ready(function() {
+    // 轮播图
+    $('#slide3').swipeSlide({
+        continuousScroll: true,
+        speed: 3000,
+        transitionType: 'cubic-bezier(0.22, 0.69, 0.72, 0.88)',
+        firstCallback: function(i, sum, me) {
+            me.find('.dot').children().first().addClass('cur');
+        },
+        callback: function(i, sum, me) {
+            me.find('.dot').children().eq(i).addClass('cur').siblings().removeClass('cur');
+        }
+    });
+});
+//百度地图
+var geolocation = new BMap.Geolocation();
+geolocation.getCurrentPosition(function(r) {
+    console.log(r);
+    if (this.getStatus() == BMAP_STATUS_SUCCESS) {
+        //获取用户当前位置信息
+        var originLat = r.point.lat;
+        var originLng = r.point.lng;
+        var originStr = originLat + ',' + originLng;
+        // 用户经纬度信息转城市
+        $.ajax({
+            url:"http://api.map.baidu.com/geocoder/v2/?callback=renderReverse&pois=1",
+            type: 'GET',
+            dataType: 'jsonp',
+            data: {
+                ak: 'yEFGek5V1C4CFFMUTvzuVD5h7AiVGKbk',
+                location:originStr,
+                output: 'json'
+            },
+            success: function(data) {
+            	console.log(data);
+                console.log(data.result.addressComponent.city);
+                var city = data.result.addressComponent.city;
+                $(".city").text(city);
+                //获取用户地理位置信息成功后加载商品信息
+                loadMore(originLat,originLng);
+            },
+            error: function() {
+                alert('定位失败');
+            }
+        })
+    }else{
+        alert('定位失败,请选择城市');
+    }
+});
+// dropload分页加载 参数用户信息经纬度
+function loadMore(lat,lng){
+	// 每页展示4个
+    var counter = 0;
+    var num = 4;
+    var pageStart = 0,pageEnd = 0;
+    $('.content').dropload({
+    	scrollArea : window,
+        loadDownFn : function(me){
+        	// paging++; // 每次请求，页码加1
+            $.ajax({
+                type: 'GET',
+                url: '/static/json/more.json',//分页paging
+                dataType: 'json',
+                success: function(data){
+                    var result = '';
+                    counter++;
+                    pageEnd = num * counter;
+                    pageStart = pageEnd - num;
+                    for(var i = pageStart; i < pageEnd; i++){
+                    	//若目的地不为百度坐标，需转化为百度坐标，具体请参考百度地图api；
+                    	var desLat = 31.144001;//目的地后台纬度数据
+				        var desLng = 121.32501;//目的地后台经度数据
+				        //百度地图2坐标距离计算
+				        map = new BMap.Map("container");//实例化
+						var point1 = new BMap.Point(lng,lat);
+						var point2 = new BMap.Point(desLng,desLat);
+						var distanceM = map.getDistance(point1,point2);
+						var distanceK = distanceM/1000;
+						var distance = distanceK.toFixed(1);
+						// alert(distance)
+                        result +=  '<a href="###" class="product">' +
+				                        '<div class="product-img">' +
+					                        '<img src="/static/images/test/product.png" alt="">' +
+					                    '</div>' +
+					                    '<div class="product-text">' +
+					                        '<div class="product-text-sub">' +
+						                        '<p class="product-name">途虎养车徐汇店</p>' +
+						                        '<p class="distance">距离'+distance+'km</p>' +
+					                    	'</div>' +
+					                        '<div class="product-text-star">' +
+						                        '<span class="star"></span>' +
+						                        '<span class="star"></span>' +
+						                        '<span class="star"></span>' +
+						                        '<span class="star"></span>' +
+						                        '<span class="star-b"></span>' +
+					                        '</div>' +
+					                        '<div class="product-text-address">' +
+					                        	'上海市徐家汇区徐家汇路400号' +
+					                        '</div>' +
+				                        '</div>' +
+		                        	'</a>';
+                        if((i + 1) >= data.lists.length){
+                            // 锁定
+                            me.lock();
+                            // 无数据
+                            me.noData();
+                            break;
+                        }
+                    }
+                    // 为了测试，延迟1秒加载
+                    setTimeout(function(){
+                        $('.product-list').append(result);
+                        // 每次数据加载完，必须重置
+                        me.resetload();
+                    },1000);
+                },
+                error: function(xhr, type){
+                    alert('Ajax error!');
+                    // 即使加载出错，也得重置
+                    me.resetload();
+                }
+            });
+        },
+        threshold : 50
+    });
+};
+
+</script>
+
+</html>
